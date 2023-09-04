@@ -2384,7 +2384,7 @@ LinkTrade:
 .save
 	farcall SaveAfterLinkTrade
 	farcall StubbedTrainerRankings_Trades
-	farcall BackupMobileEventIndex
+	farcall BackupGSBallFlag
 	ld c, 40
 	call DelayFrames
 	hlcoord 0, 12

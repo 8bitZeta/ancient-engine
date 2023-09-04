@@ -182,7 +182,7 @@ WriteBackupSave:
 ; on game load if we have a valid main save but not a backup save.
 	; Save storage, mail, mobile event and mystery gift to backup
 	farcall BackupPartyMonMail
-	farcall BackupMobileEventIndex
+	farcall BackupGSBallFlag
 	farcall BackupMysteryGift
 	call SaveStorageSystem
 
@@ -359,11 +359,11 @@ Function14d83: ; unreferenced
 	call CloseSRAM
 	ret
 
-Function14d93: ; unreferenced
-	ld a, BANK(s7_a000) ; MBC30 bank used by JP Crystal; inaccessible by MBC3
+DisableMobileStadium: ; unreferenced
+	ld a, BANK(sMobileStadiumFlag)
 	call OpenSRAM
 	xor a
-	ld [s7_a000], a ; address of MBC30 bank
+	ld [sMobileStadiumFlag], a
 	call CloseSRAM
 	ret
 
@@ -578,7 +578,7 @@ TryLoadSaveFile:
 	call WasMidSaveAborted
 	call z, WriteBackupSave
 	farcall RestorePartyMonMail
-	farcall RestoreMobileEventIndex
+	farcall RestoreGSBallFlag
 	farcall RestoreMysteryGift
 	call LoadStorageSystem
 
@@ -594,7 +594,7 @@ TryLoadSaveFile:
 	call LoadBackupPokemonData
 	call LoadBackupIndexTables
 	farcall RestorePartyMonMail
-	farcall RestoreMobileEventIndex
+	farcall RestoreGSBallFlag
 	farcall RestoreMysteryGift
 	call LoadStorageSystem
 	call SaveGameData

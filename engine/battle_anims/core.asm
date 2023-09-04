@@ -243,7 +243,7 @@ InitBattleAnimBuffer:
 	add hl, bc
 	ld a, [hli]
 	ld d, a
-	ld a, (-10 * 8) + 4
+	ld a, (-10 * TILE_WIDTH) + 4
 	sub d
 	ld [wBattleAnimTempXCoord], a
 	ld a, [hli]
@@ -251,7 +251,7 @@ InitBattleAnimBuffer:
 	ld a, [wBattleAnimTempFixY]
 	cp $ff
 	jr nz, .vertical_flip
-	ld a, 5 * 8
+	ld a, 5 * TILE_WIDTH
 	jr .done
 
 .vertical_flip
@@ -270,7 +270,7 @@ InitBattleAnimBuffer:
 	pop hl
 	pop de
 	sbc a
-	and -(1 * 8)
+	and -(1 * TILE_WIDTH)
 .done
 	add a, d
 	ld [wBattleAnimTempYCoord], a
