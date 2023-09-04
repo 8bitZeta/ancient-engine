@@ -1,5 +1,6 @@
 roms := \
-	pokecrystal.gbc
+	pokecrystal.gbc \
+	pokecrystal_debug.gbc
 patches := pokecrystal.patch
 
 rom_obj := \
@@ -22,8 +23,9 @@ rom_obj := \
 	lib/mobile/main.o \
 	lib/mobile/mail.o
 
-pokecrystal_obj    := $(rom_obj:.o=.o)
-pokecrystal_vc_obj := $(rom_obj:.o=_vc.o)
+pokecrystal_obj       := $(rom_obj:.o=.o)
+pokecrystal_debug_obj := $(rom_obj:.o=_debug.o)
+pokecrystal_vc_obj    := $(rom_obj:.o=_vc.o)
 
 
 ### Build tools
@@ -50,8 +52,9 @@ RGBLINK ?= $(RGBDS)rgblink
 .SECONDARY:
 
 all: crystal
-crystal:    pokecrystal.gbc
-crystal_vc: pokecrystal.patch
+crystal:       pokecrystal.gbc
+crystal_debug: pokecrystal_debug.gbc
+crystal_vc:    pokecrystal.patch
 
 clean: tidy
 	find gfx \
@@ -78,6 +81,7 @@ tidy:
 	      $(patches:.patch=_vc.map) \
 	      $(patches:%.patch=vc/%.constants.sym) \
 	      $(pokecrystal_obj) \
+		  $(pokecrystal_debug_obj) \
 	      $(pokecrystal_vc_obj) \
 	      rgbdscheck.o
 	$(MAKE) clean -C tools/
@@ -92,8 +96,9 @@ ifeq ($(DEBUG),1)
 RGBASMFLAGS += -E
 endif
 
-$(pokecrystal_obj):         RGBASMFLAGS +=
-$(pokecrystal_vc_obj):      RGBASMFLAGS += -D _CRYSTAL_VC
+$(pokecrystal_obj):       RGBASMFLAGS +=
+$(pokecrystal_debug_obj): RGBASMFLAGS += -D _DEBUG
+$(pokecrystal_vc_obj):    RGBASMFLAGS += -D _CRYSTAL_VC
 
 %.patch: vc/%.constants.sym %_vc.gbc %.gbc vc/%.patch.template
 	tools/make_patch $*_vc.sym $^ $@
@@ -118,6 +123,7 @@ endef
 
 # Dependencies for shared objects objects
 $(foreach obj, $(pokecrystal_obj), $(eval $(call DEP,$(obj),$(obj:.o=.asm))))
+$(foreach obj, $(pokecrystal_debug_obj), $(eval $(call DEP,$(obj),$(obj:_debug.o=.asm))))
 $(foreach obj, $(pokecrystal_vc_obj), $(eval $(call DEP,$(obj),$(obj:_vc.o=.asm))))
 
 # Dependencies for VC files that need to run scan_includes
@@ -127,8 +133,13 @@ $(foreach obj, $(pokecrystal_vc_obj), $(eval $(call DEP,$(obj),$(obj:_vc.o=.asm)
 endif
 
 
-pokecrystal_opt         = -Cjv -t PM_CRYSTAL -i BYTE -n 0 -k 01 -l 0x33 -m 0x10 -r 3 -p 0
-pokecrystal_vc_opt      = -Cjv -t PM_CRYSTAL -i BYTE -n 0 -k 01 -l 0x33 -m 0x10 -r 3 -p 0
+pokecrystal_opt         = -Cjv -t PM_CRYSTAL -i BYTE -n 0 -k 01 -l 0x33 -m 0x10 -r 5 -p 0
+pokecrystal_debug_opt   = -Cjv -t PM_CRYSTAL -i BYTE -n 0 -k 01 -l 0x33 -m 0x10 -r 5 -p 0
+pokecrystal_vc_opt      = -Cjv -t PM_CRYSTAL -i BYTE -n 0 -k 01 -l 0x33 -m 0x10 -r 5 -p 0
+
+pokecrystal_base         = us
+pokecrystal_vc_base      = us
+pokecrystal_debug_base   = dbg
 
 %.gbc: $$(%_obj) layout.link
 	$(RGBLINK) -n $*.sym -m $*.map -l layout.link -o $@ $(filter %.o,$^)
@@ -156,10 +167,10 @@ gfx/pokemon/%/frames.asm: gfx/pokemon/%/front.animated.tilemap gfx/pokemon/%/fro
 
 ### Misc file-specific graphics rules
 
-gfx/pokemon/%/back.2bpp: rgbgfx += -Z -c embedded
-gfx/pokemon/%/front.2bpp: rgbgfx += -c embedded
+gfx/pokemon/%/back.2bpp: rgbgfx += -Z
+gfx/pokemon/%/front.2bpp: rgbgfx +=
 
-gfx/trainers/%.2bpp: rgbgfx += -Z -c embedded
+gfx/trainers/%.2bpp: rgbgfx += -Z
 
 gfx/pokemon/egg/unused_front.2bpp: rgbgfx += -Z
 
@@ -265,7 +276,7 @@ gfx/mobile/stadium2_n64.2bpp: tools/gfx += --trim-whitespace
 		tools/gfx $(tools/gfx) -d1 -o $@ $@)
 
 %.gbcpal: %.png
-	$(RGBGFX) -c embedded -p $@ $<
+	$(RGBGFX) -p $@ $<
 
 %.dimensions: %.png
 	tools/png_dimensions $< $@
