@@ -825,8 +825,8 @@ Link_PrepPartyData_Gen1:
 .skip_steel
 	ld b, h
 	ld c, l
-	ld hl, BaseData
-	ld a, BANK(BaseData)
+	ld hl, BaseDataPointers
+	ld a, BANK(BaseDataPointers)
 	call LoadIndirectPointer
 	ld bc, BASE_TYPES
 	add hl, bc

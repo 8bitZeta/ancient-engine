@@ -2183,8 +2183,8 @@ Pokedex_SearchForMons:
 	jr z, .next_mon
 	; instead of going through an index conversion and GetBaseData (which would end up GC'ing the
 	; index table several times!), just load the base data pointer directly and do a far read
-	ld a, BANK(BaseData)
-	ld hl, BaseData
+	ld a, BANK(BaseDataPointers)
+	ld hl, BaseDataPointers
 	push bc
 	call LoadIndirectPointer
 	ld bc, BASE_TYPES

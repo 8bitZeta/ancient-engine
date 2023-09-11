@@ -1262,12 +1262,12 @@ _DebugRoom_FinishGetName:
 	ret
 
 DebugRoom_UpdateExpForLevel:
-	ld hl, BaseData + BASE_GROWTH_RATE
+	ld hl, BaseDataPointers + BASE_GROWTH_RATE
 	ld bc, BASE_DATA_SIZE
 	ld a, [wDebugRoomMonSpecies]
 	dec a
 	call AddNTimes
-	ld a, BANK(BaseData)
+	ld a, BANK(BaseDataPointers)
 	call GetFarByte
 	ld [wBaseGrowthRate], a
 	ld a, [wDebugRoomMonLevel]

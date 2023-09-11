@@ -3352,8 +3352,8 @@ IsThePlayerMonTypesEffectiveAgainstOTMon:
 	call GetPokemonIndexFromID
 	ld b, h
 	ld c, l
-	ld hl, BaseData
-	ld a, BANK(BaseData)
+	ld hl, BaseDataPointers
+	ld a, BANK(BaseDataPointers)
 	call LoadIndirectPointer
 	jr z, .done
 	ld bc, BASE_TYPES

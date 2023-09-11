@@ -248,8 +248,8 @@ GetBaseData::
 	call GetPokemonIndexFromID
 	ld b, h
 	ld c, l
-	ld a, BANK(BaseData)
-	ld hl, BaseData
+	ld a, BANK(BaseDataPointers)
+	ld hl, BaseDataPointers
 	call LoadIndirectPointer
 	; jr z, <some error handler>
 	rst Bankswitch

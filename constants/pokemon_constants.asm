@@ -319,3 +319,5 @@ endc
 	const UNOWN_Y ; 25
 	const UNOWN_Z ; 26
 DEF NUM_UNOWN EQU const_value - 1 ; 26
+
+UNOWN_OFFSET EQU NUM_POKEMON + NUM_UNOWN
