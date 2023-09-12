@@ -901,9 +901,10 @@ GetMonAnimPointer:
 
 .unown
 	ld a, [wPokeAnimSpeciesOrUnown]
-	add LOW(NUM_POKEMON)
+	ld bc, NUM_POKEMON
+	add c
 	ld c, a
-	adc HIGH(NUM_POKEMON)
+	adc b
 	sub c
 	ld b, a
 	jr .unown_return
@@ -968,9 +969,10 @@ GetMonFramesPointer:
 
 .unown
 	ld a, [wPokeAnimSpeciesOrUnown]
-	add LOW(NUM_POKEMON)
+	ld bc, NUM_POKEMON
+	add c
 	ld c, a
-	adc HIGH(NUM_POKEMON)
+	adc b
 	sub c
 	ld b, a
 	jr .unown_return
@@ -1011,9 +1013,10 @@ GetMonBitmaskPointer:
 
 .unown
 	ld a, [wPokeAnimSpeciesOrUnown]
-	add LOW(NUM_POKEMON)
+	ld bc, NUM_POKEMON
+	add c
 	ld c, a
-	adc HIGH(NUM_POKEMON)
+	adc b
 	sub c
 	ld b, a
 	jr .unown_return
