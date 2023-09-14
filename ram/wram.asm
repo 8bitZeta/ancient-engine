@@ -2749,12 +2749,13 @@ wBaseItems::
 wBaseItem1:: db
 wBaseItem2:: db
 wBaseGender:: db
-wBaseUnknown1:: db
 wBaseEggSteps:: db
-wBaseUnknown2:: db
 wBasePicSize:: db
-wBaseUnusedFrontpic:: dw
-wBaseUnusedBackpic:: dw
+; Abilities Start
+wBaseAbility1:: db
+wBaseAbility2:: db
+; Abilities End. You can use the subsequent padding for secret abilities, if you desire. Just know you'll have to code it.
+wBasePadding:: dw
 wBaseGrowthRate:: db
 wBaseEggGroups:: db
 wBaseTMHM:: flag_array NUM_TM_HM_TUTOR
@@ -3387,7 +3388,7 @@ wPartyMon{d:n}Nickname:: ds MON_NAME_LENGTH
 endr
 wPartyMonNicknamesEnd::
 
-	ds 22
+	ds 20
 
 wPokedexCaught:: flag_array NUM_POKEMON
 wEndPokedexCaught::

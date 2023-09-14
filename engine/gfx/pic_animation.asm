@@ -5,46 +5,32 @@ Unused_AnimateMon_Slow_Normal:
 	ld a, [wBattleMode]
 	cp WILD_BATTLE
 	jr z, .wild
-	ld e, ANIM_MON_SLOW
-	ld d, $0
-	call AnimateFrontpic
-	ret
+	lb de, $0, ANIM_MON_SLOW
+	jr AnimateFrontpic
 
 .wild
-	ld e, ANIM_MON_NORMAL
-	ld d, $0
-	call AnimateFrontpic
-	ret
+	lb de, $0, ANIM_MON_NORMAL
+	jr AnimateFrontpic
 
 AnimateMon_Menu:
-	ld e, ANIM_MON_MENU
-	ld d, $0
-	call AnimateFrontpic
-	ret
+	lb de, $0, ANIM_MON_MENU
+	jr AnimateFrontpic
 
 AnimateMon_Trade:
-	ld e, ANIM_MON_TRADE
-	ld d, $0
-	call AnimateFrontpic
-	ret
+	lb de, $0, ANIM_MON_TRADE
+	jr AnimateFrontpic
 
 AnimateMon_Evolve:
-	ld e, ANIM_MON_EVOLVE
-	ld d, $0
-	call AnimateFrontpic
-	ret
+	lb de, $0, ANIM_MON_EVOLVE
+	jr AnimateFrontpic
 
 AnimateMon_Hatch:
-	ld e, ANIM_MON_HATCH
-	ld d, $0
-	call AnimateFrontpic
-	ret
+	lb de, $0, ANIM_MON_HATCH
+	jr AnimateFrontpic
 
 AnimateMon_HOF:
-	ld e, ANIM_MON_HOF
-	ld d, $0
-	call AnimateFrontpic
-	ret
+	lb de, $0, ANIM_MON_HOF
+	jr AnimateFrontpic
 
 MACRO pokeanim
 	rept _NARG
@@ -99,8 +85,7 @@ LoadMonAnimation:
 	ld b, [hl]
 	ld c, a
 	pop hl
-	call PokeAnim_InitPicAttributes
-	ret
+	jp PokeAnim_InitPicAttributes
 
 SetUpPokeAnim:
 	ldh a, [rSVBK]
@@ -164,8 +149,7 @@ PokeAnim_Wait:
 	ret
 
 PokeAnim_Setup:
-	ld c, FALSE
-	ld b, 0
+	lb bc, 0, FALSE
 	call PokeAnim_InitAnim
 	call PokeAnim_SetVBank1
 	ld a, [wPokeAnimSceneIndex]
@@ -174,8 +158,7 @@ PokeAnim_Setup:
 	ret
 
 PokeAnim_Setup2:
-	ld c, FALSE
-	ld b, 4
+	lb bc, 4, FALSE
 	call PokeAnim_InitAnim
 	call PokeAnim_SetVBank1
 	ld a, [wPokeAnimSceneIndex]
@@ -184,8 +167,7 @@ PokeAnim_Setup2:
 	ret
 
 PokeAnim_Idle:
-	ld c, TRUE
-	ld b, 0
+	lb bc, 0, TRUE
 	call PokeAnim_InitAnim
 	call PokeAnim_SetVBank1
 	ld a, [wPokeAnimSceneIndex]
@@ -386,8 +368,7 @@ PokeAnim_DoAnimScript:
 	dec a
 	ld [wPokeAnimWaitCounter], a
 	ret nz
-	call PokeAnim_StopWaitAnim
-	ret
+	jr PokeAnim_StopWaitAnim
 
 .SetRepeat:
 	ld a, [wPokeAnimParameter]
@@ -437,8 +418,7 @@ PokeAnim_GetFrame:
 	push hl
 	call PokeAnim_CopyBitmaskToBuffer
 	pop hl
-	call PokeAnim_ConvertAndApplyBitmask
-	ret
+	jp PokeAnim_ConvertAndApplyBitmask
 
 PokeAnim_StartWaitAnim:
 	ld a, [wPokeAnimJumptableIndex]
@@ -528,8 +508,7 @@ PokeAnim_CopyBitmaskToBuffer:
 	pop bc
 	ld de, wPokeAnimBitmaskBuffer
 	ld a, [wPokeAnimBitmaskBank]
-	call FarCopyBytes
-	ret
+	jp FarCopyBytes
 
 .GetSize:
 	push hl
@@ -645,7 +624,7 @@ PokeAnim_ConvertAndApplyBitmask:
 	ld e, a
 	ld d, 0
 	add hl, de
-	jr .done
+	ret
 
 .subtract
 	; hl -= [wPokeAnimBitmaskCurCol]
@@ -654,15 +633,10 @@ PokeAnim_ConvertAndApplyBitmask:
 	ld a, l
 	sub e
 	ld l, a
-	ld a, h
-	sbc 0
+	sbc l
+	add h
 	ld h, a
-
-.done
 	ret
-
-.UnusedSizeData: ; unreferenced
-	db 6, 5, 4
 
 .GetTilemap:
 	push af
@@ -801,8 +775,7 @@ PokeAnim_PlaceGraphic:
 	ld h, [hl]
 	ld l, a
 	add hl, bc
-	ld c, 7
-	ld b, 7
+	lb bc, 7, 7
 	ld a, [wPokeAnimGraphicStartTile]
 .loop
 	push bc
@@ -828,10 +801,8 @@ PokeAnim_PlaceGraphic:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld b, 7
-	ld c, 7
-	call ClearBox
-	ret
+	lb bc, 7, 7
+	jp ClearBox
 
 PokeAnim_SetVBank1:
 	ldh a, [rSVBK]
@@ -848,8 +819,7 @@ PokeAnim_SetVBank1:
 
 .SetFlag:
 	call PokeAnim_GetAttrmapCoord
-	ld b, 7
-	ld c, 7
+	lb bc, 7, 7
 	ld de, SCREEN_WIDTH
 .row
 	push bc
@@ -870,8 +840,7 @@ PokeAnim_SetVBank1:
 
 PokeAnim_SetVBank0:
 	call PokeAnim_GetAttrmapCoord
-	ld b, 7
-	ld c, 7
+	lb bc, 7, 7
 	ld de, SCREEN_WIDTH
 .row
 	push bc
@@ -903,38 +872,42 @@ GetMonAnimPointer:
 	call PokeAnim_IsEgg
 	jr z, .egg
 
-	ld c, BANK(UnownAnimationPointers) ; aka BANK(UnownAnimationIdlePointers)
-	ld hl, UnownAnimationPointers - 2
-	ld de, UnownAnimationIdlePointers - 2
 	call PokeAnim_IsUnown
 	jr z, .unown
-	ld c, BANK(AnimationPointers) ; aka BANK(AnimationIdlePointers)
-	ld hl, AnimationPointers - 2
-	ld de, AnimationIdlePointers - 2
-.unown
 
+	ld a, [wPokeAnimSpeciesOrUnown]
+	call GetPokemonIndexFromID
+	ld b, h
+	ld c, l
+.unown_return
 	ld a, [wPokeAnimIdleFlag]
 	and a
-	jr nz, .got_pointer
-	ld d, h
-	ld e, l
-.got_pointer
-
-	call PokeAnim_IsUnown
-	ld a, [wPokeAnimSpeciesOrUnown]
-	ld l, a
-	ld h, 0
-	call nz, GetPokemonIndexFromID
-	add hl, hl
-	add hl, de
-	ld a, c
+	ld a, BANK(AnimationPointers)
+	ld hl, AnimationPointers
+	jr z, .got_pointers
+	ld a, BANK(AnimationIdlePointers)
+	ld hl, AnimationIdlePointers
+.got_pointers
+	call LoadDoubleIndirectPointer
+	jr z, .egg ; error handler
+.load_pointer
+	ld a, b
 	ld [wPokeAnimPointerBank], a
-	call GetFarWord
 	ld a, l
 	ld [wPokeAnimPointerAddr], a
 	ld a, h
 	ld [wPokeAnimPointerAddr + 1], a
 	ret
+
+.unown
+	ld a, [wPokeAnimSpeciesOrUnown]
+	ld bc, NUM_POKEMON
+	add c
+	ld c, a
+	adc b
+	sub c
+	ld b, a
+	jr .unown_return
 
 .egg
 	ld hl, EggAnimation
@@ -974,42 +947,35 @@ GetMonFramesPointer:
 	jr z, .egg
 
 	call PokeAnim_IsUnown
-	ld hl, FramesPointers - 3
-	ld a, BANK(FramesPointers)
-	ld c, 3
-	jr nz, .got_frames
-	ld a, BANK(UnownsFrames)
-	ld [wPokeAnimFramesBank], a
-	ld hl, UnownFramesPointers - 2
-	ld a, BANK(UnownFramesPointers)
-	ld c, 2
-.got_frames
+	jr z, .unown
 
-	push af
-	push hl
 	ld a, [wPokeAnimSpeciesOrUnown]
-	ld l, a
-	ld h, 0
-	call nz, GetPokemonIndexFromID
-	ld a, c
-	ld c, l
+	call GetPokemonIndexFromID
 	ld b, h
-	pop hl
-	call AddNTimes
-	pop af
-	jr z, .no_bank
-	ld c, a
-	call GetFarByte
+	ld c, l
+.unown_return
+	ld a, BANK(FramesPointers)
+	ld hl, FramesPointers
+	call LoadDoubleIndirectPointer
+	jr z, .egg ; error handler
+.load_pointer
+	ld a, b
 	ld [wPokeAnimFramesBank], a
-	inc hl
-	ld a, c
-.no_bank
-	call GetFarWord
 	ld a, l
 	ld [wPokeAnimFramesAddr], a
 	ld a, h
 	ld [wPokeAnimFramesAddr + 1], a
 	ret
+
+.unown
+	ld a, [wPokeAnimSpeciesOrUnown]
+	ld bc, NUM_POKEMON
+	add c
+	ld c, a
+	adc b
+	sub c
+	ld b, a
+	jr .unown_return
 
 .egg
 	ld a, BANK(EggFrames)
@@ -1025,27 +991,35 @@ GetMonBitmaskPointer:
 	jr z, .egg
 
 	call PokeAnim_IsUnown
-	ld a, BANK(UnownBitmasksPointers)
-	ld de, UnownBitmasksPointers - 2
 	jr z, .unown
-	ld a, BANK(BitmasksPointers)
-	ld de, BitmasksPointers - 2
-.unown
-	ld [wPokeAnimBitmaskBank], a
 
 	ld a, [wPokeAnimSpeciesOrUnown]
-	ld l, a
-	ld h, 0
-	call nz, GetPokemonIndexFromID
-	add hl, hl
-	add hl, de
-	ld a, [wPokeAnimBitmaskBank]
-	call GetFarWord
+	call GetPokemonIndexFromID
+	ld b, h
+	ld c, l
+.unown_return
+	ld a, BANK(BitmasksPointers)
+	ld hl, BitmasksPointers
+	call LoadDoubleIndirectPointer
+	jr z, .egg ; error handler
+.load_pointer
+	ld a, b
+	ld [wPokeAnimBitmaskBank], a
 	ld a, l
 	ld [wPokeAnimBitmaskAddr], a
 	ld a, h
 	ld [wPokeAnimBitmaskAddr + 1], a
 	ret
+
+.unown
+	ld a, [wPokeAnimSpeciesOrUnown]
+	ld bc, NUM_POKEMON
+	add c
+	ld c, a
+	adc b
+	sub c
+	ld b, a
+	jr .unown_return
 
 .egg
 	ld c, BANK(EggBitmasks)
