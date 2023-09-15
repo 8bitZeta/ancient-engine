@@ -1308,8 +1308,6 @@ Pokedex_DrawDexEntryScreenBG:
 	call Pokedex_PlaceFrontpicTopLeftCorner
 	ret
 
-.Number: ; unreferenced
-	db $5c, $5d, -1 ; No.
 .Height:
 	db "HT  ?", $5e, "??", $5f, -1 ; HT  ?'??"
 .Weight:
