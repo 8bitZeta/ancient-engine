@@ -183,7 +183,7 @@ BattleAnimRequestPals:
 	ld b, a
 	ld a, [wOBP0]
 	cp b
-	jp nz, BattleAnim_SetOBPals
+	jmp nz, BattleAnim_SetOBPals
 	ret
 
 ClearActorHud:
@@ -218,7 +218,7 @@ PlaceWindowOverBattleTextbox: ; unreferenced
 	ldh [hBGMapAddress], a
 	ld a, HIGH(vBGMap0)
 	ldh [hBGMapAddress + 1], a
-	jp DelayFrame
+	jmp DelayFrame
 
 BattleAnim_ClearOAM:
 	ld a, [wBattleAnimFlags]
@@ -1358,7 +1358,7 @@ ClearBattleAnims::
 	add hl, de
 	call GetBattleAnimPointer
 	call BattleAnimAssignPals
-	jp DelayFrame
+	jmp DelayFrame
 
 BattleAnim_RevertPals:
 	call WaitTop

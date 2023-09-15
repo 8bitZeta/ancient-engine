@@ -109,7 +109,7 @@ InitPokedex:
 Pokedex_ClearLockedIDs:
 	xor a
 	ld l, LOCKED_MON_ID_DEX_SELECTED
-	jp LockPokemonID
+	jmp LockPokemonID
 
 Pokedex_CheckUnlockedUnownMode:
 	ld a, [wStatusFlags]
@@ -1197,7 +1197,7 @@ Pokedex_PrintLittleEndian:
 	ld de, wPokedexDisplayNumber
 	ld [de], a
 	lb bc, 2, 3
-	jp PrintNum
+	jmp PrintNum
 
 Pokedex_DrawMainScreenBG:
 ; Draws the left sidebar and the bottom bar on the main screen.
@@ -1649,7 +1649,7 @@ Pokedex_PrintListing:
 	jr nz, .loop
 	pop af
 	ldh [rSVBK], a
-	jp Pokedex_LoadSelectedMonTiles
+	jmp Pokedex_LoadSelectedMonTiles
 
 .PrintEntry:
 	ld a, d
@@ -1681,7 +1681,7 @@ Pokedex_PrintListing:
 	ld [wPokedexNameBuffer + MON_NAME_LENGTH - 1], a
 	pop de
 	pop hl
-	jp PlaceString
+	jmp PlaceString
 
 Pokedex_PrintNumberIfOldMode:
 	ld a, [wCurDexMode]
@@ -2265,7 +2265,7 @@ Pokedex_DisplayTypeNotFoundMessage:
 Pokedex_UpdateCursorOAM:
 	ld a, [wCurDexMode]
 	cp DEXMODE_OLD
-	jp z, Pokedex_PutOldModeCursorOAM
+	jr z, Pokedex_PutOldModeCursorOAM
 	call Pokedex_PutNewModeABCModeCursorOAM
 	call Pokedex_PutScrollbarOAM
 	ret
@@ -2367,7 +2367,7 @@ Pokedex_PutNewModeABCModeCursorOAM:
 Pokedex_UpdateSearchResultsCursorOAM:
 	ld a, [wCurDexMode]
 	cp DEXMODE_OLD
-	jp z, Pokedex_PutOldModeCursorOAM
+	jmp z, Pokedex_PutOldModeCursorOAM
 	ld hl, .CursorOAM
 	call Pokedex_LoadCursorOAM
 	ret
@@ -2644,7 +2644,7 @@ Pokedex_ArrowCursorDelay:
 	ret
 
 Pokedex_FillBox:
-	jp FillBoxWithByte
+	jmp FillBoxWithByte
 
 Pokedex_BlackOutBG:
 	ldh a, [rSVBK]
@@ -2734,7 +2734,7 @@ Pokedex_LoadAnyFootprint:
 	ld d, h
 	ld hl, vTiles2 tile $62
 	lb bc, BANK(Footprints), 4
-	jp Request1bpp
+	jmp Request1bpp
 
 Pokedex_LoadGFX:
 	call DisableLCD

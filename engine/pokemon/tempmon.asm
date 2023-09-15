@@ -21,7 +21,7 @@ CopyMonToTempMon:
 
 	; tried to run old box code, crash
 	di
-	jp @
+	jr @
 
 .copywholestruct
 	ld a, [wCurPartyMon]
@@ -109,7 +109,7 @@ GetMonSpecies:
 .boxmon
 	; tried to run old box code, crash
 	di
-	jp @
+	jr @
 
 .breedmon
 	ld a, [wBreedMon1Species]

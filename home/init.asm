@@ -100,7 +100,7 @@ Init::
 	call ClearsScratch
 
 	; Set up LCD interrupt handler
-	ld a, $c3 ; jp instruction
+	ld a, $c3 ; jmp instruction
 	ldh [hFunctionJump], a
 	ld a, LOW(LCDGeneric)
 	ldh [hFunctionTargetLo], a
@@ -173,7 +173,7 @@ Init::
 	call InitSound
 	xor a
 	ld [wMapMusic], a
-	jp GameInit
+	jmp GameInit
 
 ClearVRAM::
 ; Wipe VRAM banks 0 and 1
@@ -188,7 +188,7 @@ ClearVRAM::
 	ld hl, VRAM_Begin
 	ld bc, VRAM_End - VRAM_Begin
 	xor a
-	jp ByteFill
+	jmp ByteFill
 
 ClearWRAM::
 ; Wipe swappable WRAM banks (1-7)

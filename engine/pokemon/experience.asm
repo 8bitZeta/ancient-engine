@@ -35,9 +35,9 @@ CalcExpAtLevel:
 ; BUG: Experience underflow for level 1 Pokémon with Medium-Slow growth rate (see docs/bugs_and_glitches.md)
 	ld a, [wBaseGrowthRate]
 	cp GROWTH_ERRATIC
-	jp z, .erratic
+	jmp z, .erratic
 	cp GROWTH_FLUCTUATING
-	jp z, .fluctuating
+	jmp z, .fluctuating
 	add a
 	add a
 	ld c, a
@@ -162,7 +162,7 @@ CalcExpAtLevel:
 	ld a, d
 	ldh [hMultiplicand + 2], a
 	ldh [hMultiplier], a
-	jp Multiply
+	jmp Multiply
 
 .erratic:
 	ld hl, ErraticExperience

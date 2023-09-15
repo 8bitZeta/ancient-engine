@@ -85,7 +85,7 @@ LoadMonAnimation:
 	ld b, [hl]
 	ld c, a
 	pop hl
-	jp PokeAnim_InitPicAttributes
+	jmp PokeAnim_InitPicAttributes
 
 SetUpPokeAnim:
 	ldh a, [rSVBK]
@@ -418,7 +418,7 @@ PokeAnim_GetFrame:
 	push hl
 	call PokeAnim_CopyBitmaskToBuffer
 	pop hl
-	jp PokeAnim_ConvertAndApplyBitmask
+	jmp PokeAnim_ConvertAndApplyBitmask
 
 PokeAnim_StartWaitAnim:
 	ld a, [wPokeAnimJumptableIndex]
@@ -508,7 +508,7 @@ PokeAnim_CopyBitmaskToBuffer:
 	pop bc
 	ld de, wPokeAnimBitmaskBuffer
 	ld a, [wPokeAnimBitmaskBank]
-	jp FarCopyBytes
+	jmp FarCopyBytes
 
 .GetSize:
 	push hl
@@ -802,7 +802,7 @@ PokeAnim_PlaceGraphic:
 	ld h, [hl]
 	ld l, a
 	lb bc, 7, 7
-	jp ClearBox
+	jmp ClearBox
 
 PokeAnim_SetVBank1:
 	ldh a, [rSVBK]
