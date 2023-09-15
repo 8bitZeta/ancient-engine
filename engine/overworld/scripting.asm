@@ -839,7 +839,7 @@ Script_applymovementlasttalked:
 
 	ldh a, [hLastTalked]
 	ld c, a
-	jmp ApplyMovement
+	jr ApplyMovement
 
 Script_faceplayer:
 	ldh a, [hLastTalked]
@@ -1265,7 +1265,7 @@ CallCallback::
 	ld a, [wScriptBank]
 	or $80
 	ld [wScriptBank], a
-	jmp ScriptCall
+	jr ScriptCall
 
 Script_sjump:
 	call GetScriptByte
@@ -1301,12 +1301,12 @@ Script_iffalse:
 	ld a, [wScriptVar]
 	and a
 	jr nz, SkipTwoScriptBytes
-	jmp Script_sjump
+	jr Script_sjump
 
 Script_iftrue:
 	ld a, [wScriptVar]
 	and a
-	jmp nz, Script_sjump
+	jr nz, Script_sjump
 	jr SkipTwoScriptBytes
 
 Script_ifequal:
@@ -1607,7 +1607,7 @@ ConvertLandmarkToText:
 	ld e, a
 	farcall GetLandmarkName
 	ld de, wStringBuffer1
-	jmp GetStringBuffer
+	jr GetStringBuffer
 
 Script_getlandmarkname:
 	call GetScriptByte
@@ -1630,7 +1630,7 @@ ContinueToGetName:
 	ld [wCurSpecies], a
 	call GetName
 	ld de, wStringBuffer1
-	jmp GetStringBuffer
+	jr GetStringBuffer
 
 Script_gettrainerclassname:
 	ld a, TRAINER_NAME

@@ -440,14 +440,6 @@ FlyFunction_GetMonIcon:
 	farcall SetFirstOBJPalette
 	ret
 
-GetMonIconDE: ; unreferenced
-	push de
-	ld a, [wTempIconSpecies]
-	ld [wCurIcon], a
-	pop de
-	call GetIcon_de
-	ret
-
 GetMemIconGFX:
 	ld a, [wCurIconTile]
 GetIconGFX:

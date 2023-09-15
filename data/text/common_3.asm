@@ -207,19 +207,10 @@ _SaveFileCorruptedText::
 	line "corrupted!"
 	prompt
 
-_WindowAreaExceededErrorText:: ; unreferenced
-	text "The window save"
-	line "area was exceeded."
-	done
-
 _WindowPoppingErrorText::
 	text "No windows avail-"
 	line "able for popping."
 	done
-
-_CorruptedEventText:: ; unreferenced
-	text "Corrupted event!"
-	prompt
 
 _ObjectEventText::
 	text "Object event"
@@ -428,8 +419,6 @@ _CongratulationsYourPokemonText::
 	line "Your @"
 	text_ram wStringBuffer2
 	text_end
-
-	text_end ; unreferenced
 
 _EvolvedIntoText::
 	text_start
@@ -884,10 +873,6 @@ _PhoneThankYouText::
 	text "Thank you!"
 	done
 
-_SpaceSpaceColonText:: ; unreferenced
-	text "  :"
-	done
-
 _PasswordAskResetText::
 	text "Password OK."
 	line "Select CONTINUE &"
@@ -921,8 +906,6 @@ _LearnedMoveText::
 	sound_dex_fanfare_50_79
 	text_promptbutton
 	text_end
-
-	text_end ; unreferenced
 
 _MoveAskForgetText::
 	text "Which move should"
@@ -970,8 +953,6 @@ Text_MoveForgetCount::
 	text "1, 2 and…@"
 	text_pause
 	text_end
-
-	text_end ; unreferenced
 
 _MoveForgotText::
 	text " Poof!@"
@@ -1031,8 +1012,6 @@ _CardFlipDarnText::
 _GearTodayText::
 	text_today
 	text_end
-
-	text_end ; unreferenced
 
 _GearEllipseText::
 	text "<……>"
@@ -1201,13 +1180,9 @@ Text_BallCaught::
 	sound_caught_mon
 	text_end
 
-	text_end ; unreferenced
-
 _WaitButtonText::
 	text_promptbutton
 	text_end
-
-	text_end ; unreferenced
 
 _BallSentToPCText::
 	text_ram wMonOrItemNameBuffer
@@ -1225,8 +1200,6 @@ _NewDexDataText::
 	sound_slot_machine_start
 	text_promptbutton
 	text_end
-
-	text_end ; unreferenced
 
 _AskGiveNicknameText::
 	text "Give a nickname to"
@@ -1273,8 +1246,6 @@ Text_PlayedPokeFlute::
 	text_promptbutton
 	text_end
 
-	text_end ; unreferenced
-
 _BlueCardBalanceText::
 	text "You now have"
 	line "@"
@@ -1287,8 +1258,6 @@ _CoinCaseCountText::
 	line "@"
 	text_decimal wCoins, 2, 4
 	text_end
-
-	text_end ; unreferenced
 
 _RaiseThePPOfWhichMoveText::
 	text "Raise the PP of"
