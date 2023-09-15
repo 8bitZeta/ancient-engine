@@ -279,7 +279,6 @@ MenuBoxCoord2Attr::
 	ld b, a
 	; fallthrough
 
-Coord2Attr:: ; unreferenced
 ; Return the address of wAttrmap(c, b) in hl.
 	xor a
 	ld h, a
@@ -324,7 +323,7 @@ MenuTextbox::
 
 LoadMenuTextbox::
 	ld hl, .MenuHeader
-	jmp LoadMenuHeader
+	jr LoadMenuHeader
 
 .MenuHeader:
 	db MENU_BACKUP_TILES ; flags
@@ -338,7 +337,7 @@ MenuTextboxBackup::
 
 LoadStandardMenuHeader::
 	ld hl, .MenuHeader
-	jmp LoadMenuHeader
+	jr LoadMenuHeader
 
 .MenuHeader:
 	db MENU_BACKUP_TILES ; flags

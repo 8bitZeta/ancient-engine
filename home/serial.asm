@@ -303,7 +303,7 @@ WaitLinkTransfer::
 	; We might be disconnected
 	pop hl
 	xor a
-	jmp SerialDisconnected
+	jr SerialDisconnected
 
 .skip
 	pop hl

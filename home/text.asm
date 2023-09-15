@@ -137,7 +137,7 @@ SpeechTextbox::
 	hlcoord TEXTBOX_X, TEXTBOX_Y
 	ld b, TEXTBOX_INNERH
 	ld c, TEXTBOX_INNERW
-	jmp Textbox
+	jr Textbox
 
 RadioTerminator::
 	ld hl, .stop
@@ -223,7 +223,7 @@ PlaceNextChar::
 
 NextChar::
 	inc de
-	jmp PlaceNextChar
+	jr PlaceNextChar
 
 CheckDict::
 MACRO dict

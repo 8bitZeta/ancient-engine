@@ -183,7 +183,7 @@ endr
 	pop de
 	inc de
 	dec c
-	jmp nz, .col
+	jr nz, .col
 	; Next metarow
 	pop hl
 	ld de, SURROUNDING_WIDTH * METATILE_WIDTH

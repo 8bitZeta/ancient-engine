@@ -136,7 +136,7 @@ DEF LZ_LONG_HI   EQU %00000011
 	dec c
 	jr nz, .lnext
 	dec b
-	jmp z, .Main
+	jr z, .Main
 
 .lnext
 	ld a, [hli]
@@ -152,7 +152,7 @@ DEF LZ_LONG_HI   EQU %00000011
 	dec c
 	jr nz, .inext
 	dec b
-	jmp z, .Main
+	jr z, .Main
 
 .inext
 	ld [de], a
@@ -196,7 +196,7 @@ DEF LZ_LONG_HI   EQU %00000011
 	dec c
 	jr nz, .znext
 	dec b
-	jmp z, .Main
+	jr z, .Main
 
 .znext
 	ld [de], a
