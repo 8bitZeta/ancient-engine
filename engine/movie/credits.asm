@@ -179,7 +179,7 @@ Credits_LoopBack:
 Credits_PrepBGMapUpdate:
 	xor a
 	ldh [hBGMapMode], a
-	jmp Credits_Next
+	jr Credits_Next
 
 Credits_UpdateGFXRequestPath:
 	call Credits_LoadBorderGFX
@@ -198,7 +198,7 @@ Credits_RequestGFX:
 	ldh [hBGMapMode], a
 	ld a, 8
 	ld [wRequested2bppSize], a
-	jmp Credits_Next
+	jr Credits_Next
 
 Credits_LYOverride:
 	ldh a, [rLY]
@@ -212,7 +212,7 @@ Credits_LYOverride:
 	call .Fill
 	ld hl, wLYOverrides + $87
 	call .Fill
-	jmp Credits_Next
+	jr Credits_Next
 
 .Fill:
 	ld c, $8
