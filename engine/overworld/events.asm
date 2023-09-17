@@ -107,6 +107,8 @@ HandleMap:
 	ld a, [wMapStatus]
 	cp MAPSTATUS_HANDLE
 	ret nz
+
+	farcall CheckForUsedObjPals
 	call HandleMapObjects
 	call NextOverworldFrame
 	call HandleMapBackground
