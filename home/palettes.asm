@@ -320,6 +320,14 @@ ReloadSpritesNoPalettes::
 	ldh [hCGBPalUpdate], a
 	jmp DelayFrame
 
+ClearSavedObjPals::
+	xor a
+	ld [wUsedObjectPals], a
+	ld hl, wUsedObjectPals
+	ld bc, wNeededPalIndex - wUsedObjectPals
+	ld a, -1
+	jp ByteFill
+
 SwapTextboxPalettes::
 	homecall _SwapTextboxPalettes
 	ret

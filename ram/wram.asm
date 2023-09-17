@@ -2985,8 +2985,8 @@ wGameTimeMinutes:: db
 wGameTimeSeconds:: db
 wGameTimeFrames::  db
 
-	ds 2
-
+	ds 1
+wPalFlags:: db
 wCurDay:: db
 
 wFollowerFlags:: db
@@ -3023,14 +3023,12 @@ wObjectMasks:: ds NUM_OBJECTS
 wVariableSprites:: ds $100 - SPRITE_VARS
 
 wEnteredMapFromContinue:: db
-	ds 2
+
 wTimeOfDayPal:: db
-	ds 4
 wTimeOfDayPalFlags:: db
 wTimeOfDayPalset:: db
-wCurTimeOfDay:: db
 
-	ds 1
+wCurTimeOfDay:: db
 
 wSecretID:: dw
 wStatusFlags::
