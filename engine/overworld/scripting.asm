@@ -236,9 +236,16 @@ ScriptCommandTable:
 	dw Script_checksave                  ; a9
 	dw Script_loadmonindex               ; aa
 	dw Script_checkmaplockedmons         ; ab
-if DEF (_DEBUG)
 	dw Script_givepokemove               ; ac
-endc
+	dw Script_freezefollower             ; ad
+	dw Script_unfreezefollower           ; ae
+	dw Script_getfollowerdirection       ; af
+	dw Script_followcry                  ; b0
+	dw Script_stowfollower               ; b1
+	dw Script_appearfollower             ; b2
+	dw Script_appearfolloweronestep      ; b3
+	dw Script_savefollowercoords         ; b4
+	dw Script_silentstowfollower         ; b5
 	assert_table_length NUM_EVENT_COMMANDS
 
 StartScript:
@@ -792,7 +799,6 @@ GetScriptObject:
 	ret z
 	cp LAST_TALKED
 	ret z
-	dec a
 	ret
 
 Script_setlasttalked:
@@ -959,6 +965,9 @@ Script_variablesprite:
 
 Script_appear:
 	call GetScriptByte
+	ld b, a
+Script_appear_skipinput::
+	ld a, b
 	call GetScriptObject
 	call UnmaskCopyMapObjectStruct
 	ldh a, [hMapObjectIndex]
@@ -1236,9 +1245,11 @@ Script_memcall:
 	ld d, [hl]
 	; fallthrough
 
-ScriptCall:
-; BUG: ScriptCall can overflow wScriptStack and crash (see docs/bugs_and_glitches.md)
-
+ScriptCall::
+	ld hl, wScriptStackSize
+	ld a, [hl]
+	cp 5
+	ret nc
 	push de
 	ld hl, wScriptStackSize
 	ld e, [hl]
@@ -2226,6 +2237,8 @@ Script_deactivatefacing:
 	jr z, .no_time
 	ld [wScriptDelay], a
 .no_time
+; fallthrough
+DoScriptWait:
 	ld a, SCRIPT_WAIT
 	ld [wScriptMode], a
 	call StopScript
@@ -2398,7 +2411,6 @@ LoadScriptPokemonID:
 	ld a, [wScriptVar]
 	ret
 
-if DEF(_DEBUG)
 Script_givepokemove:
 	; Get Move
 	call GetScriptByte
@@ -2425,4 +2437,67 @@ Script_givepokemove:
 	ld a, d
 	ld [hl], a
 	ret
-endc
+
+AppendTMHMMoveName::
+; a = item ID
+	ld a, [wNamedObjectIndex]
+	cp TM01
+	ret c
+; save item name buffer
+	push de
+; a = TM/HM number
+	ld c, a
+	farcall GetTMHMNumber
+	ld a, c
+; a = move ID
+	ld [wTempTMHM], a
+	predef GetTMHMMove
+	ld a, [wTempTMHM]
+; wStringBuffer1 = move name
+	ld [wNamedObjectIndex], a
+	call GetMoveName
+; hl = item name buffer
+	pop hl
+; append wStringBuffer1 to item name buffer
+	ld [hl], " "
+	inc hl
+	ld de, wStringBuffer1
+	jmp CopyName2
+
+Script_freezefollower:
+	farcall _FreezeFollower
+	ret
+
+Script_unfreezefollower:
+	farcall _UnfreezeFollower
+	ret
+
+Script_getfollowerdirection:
+	farcall Script_GetFollowerDirectionFromPlayer
+	ret
+
+Script_followcry:
+	ld a, [wFollowerSpriteID]
+	jp PlayMonCry
+
+Script_stowfollower:
+	farcall _StowFollower
+	jp DoScriptWait
+
+Script_appearfollower:
+	farcall _AppearFollower
+	jp DoScriptWait
+
+Script_appearfolloweronestep:
+	farcall _AppearFollowerOneStep
+	jp DoScriptWait
+
+Script_savefollowercoords:
+	farcall _SaveFollowerCoords
+	ret
+
+Script_silentstowfollower:
+	xor a
+	ld [wScriptDelay], a
+	farcall _SilentStowFollower
+	ret
