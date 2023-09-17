@@ -1107,6 +1107,10 @@ endr
 	call FarCopyWRAM
 	ret
 
+_CopyTreePal:
+	ld de, wOBPals1 + 6 palettes
+	ld a, PAL_OW_TREE
+	ld [wNeededPalIndex], a
 CopySpritePal::
 	push af
 	push bc
