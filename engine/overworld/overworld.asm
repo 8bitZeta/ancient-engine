@@ -616,7 +616,7 @@ endr
 
 	pop af
 	ldh [rVBK], a
-	farcall CopySpritePal
+	;farcall CopySpritePal
 	ret
 
 LoadEmote::
