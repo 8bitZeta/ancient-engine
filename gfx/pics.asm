@@ -752,3 +752,6 @@ PrycePic:            INCBIN "gfx/trainers/pryce.2bpp.lz"
 BrockPic:            INCBIN "gfx/trainers/brock.2bpp.lz"
 SagePic:             INCBIN "gfx/trainers/sage.2bpp.lz"
 EggPic:              INCBIN "gfx/pokemon/egg/front.animated.2bpp.lz"
+
+SECTION "Pics 20", ROMX
+KrisPic: INCBIN "gfx/trainers/kris.2bpp.lz"
