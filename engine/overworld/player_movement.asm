@@ -872,8 +872,7 @@ CheckTrainerRun:
 	ld hl, MAPOBJECT_TYPE
 	add hl, de
 	ld a, [hl]
-	and $f
-	cp $2
+	cp OBJECTTYPE_TRAINER
 	jr nz, .next
 ; Is visible on the map
 	ld hl, MAPOBJECT_OBJECT_STRUCT_ID
