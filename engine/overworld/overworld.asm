@@ -284,6 +284,13 @@ GetFollowingSprite:
 GetWalkingMonSprite:
 	push af
 	call GetPokemonIndexFromID
+	ld a, h
+	and a
+	jr nz, .good_id
+	ld a, l
+	and a
+	jr z, .nope_pop_af ; BAD ID!
+.good_id
 	dec hl
 	ld b, h
 	ld c, l
@@ -345,6 +352,8 @@ GetWalkingMonSprite:
 
 	scf
 	ret
+.nope_pop_af
+	pop af
 .nope
 	and a
 	ret
@@ -387,7 +396,9 @@ _GetSpritePalette::
 	pop bc
 	jr c, .follower
 	ld a, c
+	push bc
 	call GetMonSprite
+	pop bc
 	jr c, .is_pokemon
 
 	ld hl, OverworldSprites + SPRITEDATA_PALETTE
@@ -400,12 +411,41 @@ _GetSpritePalette::
 	ret
 
 .is_pokemon
-	xor a
-	ld c, a
-	ret
+	call GetPokemonIndexFromID
+	ld a, h
+	and a
+	jr nz, .good_id_1
+	ld a, l
+	and a
+	ret z ; Bad ID!
+.good_id_1
+	dec hl
+	push de
+	ld de, MenuMonPals
+	add hl, de
+	ld a, BANK(MenuMonPals)
+	call GetFarByte
+	ld d, a
+	ld a, c
+	cp SPRITE_DAY_CARE_MON_1
+	ld bc, wBreedMon1DVs
+	jr z, .check_shiny
+	cp SPRITE_DAY_CARE_MON_2
+	ld bc, wBreedMon2DVs
+	jr z, .check_shiny
+	ld a, d
+	pop de
+	jr .not_shiny
 
 .follower
 	call GetPokemonIndexFromID
+	ld a, h
+	and a
+	jr nz, .good_id
+	ld a, l
+	and a
+	ret z ; Bad ID!
+.good_id
 	dec hl
 	ld b, h
 	ld c, l
@@ -421,10 +461,12 @@ _GetSpritePalette::
 	call GetPartyLocation
 	ld b, h
 	ld c, l
+.check_shiny
 	farcall CheckShininess
 	ld a, d
 	pop de
 	jr c, .shiny
+.not_shiny
 	swap a
 .shiny
 	and $f
