@@ -493,10 +493,17 @@ GetIconStorage:
 
 	cp LOW(UNOWN - 1) ; we already decremented
 	jr nz, .not_unown
+
+	ld hl, wMonIconFlags
+	bit BILLS_PC_ICON_F, [hl]
+	ld hl, wBufferMonDVs
+	jr nz, .get_unown_letter
+
 	ld a, [wCurPartyMon]
 	ld bc, PARTYMON_STRUCT_LENGTH
 	ld hl, wPartyMon1DVs
 	call AddNTimes
+.get_unown_letter
 	predef GetUnownLetter
 	ld a, [wUnownLetter]
 	dec a
