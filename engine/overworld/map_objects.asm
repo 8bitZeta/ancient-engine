@@ -897,6 +897,7 @@ MovementFunction_FollowerObj:
 
 MovementFunction_FollowNotExact:
 	call MoveFollowNotExact
+	ld d, OBJECT_ACTION_STEP
 	jp c, NormalStep
 	ret
 
